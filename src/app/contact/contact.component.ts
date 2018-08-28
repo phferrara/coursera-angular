@@ -43,7 +43,7 @@ export class ContactComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder
   ) { 
-    this.createForm() 
+    this.createForm();
   }
 
   ngOnInit() {

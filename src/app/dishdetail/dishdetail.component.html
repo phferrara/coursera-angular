@@ -26,7 +26,7 @@
         <button mat-button>SHARE</button>
         <span class="flex-spacer"></span>
         <button mat-button [routerLink]="['/dishdetail', next]">
-          <span class="fa fa-chevron-rightp fa-lg"></span>
+          <span class="fa fa-chevron-right fa-lg"></span>
         </button>
       </mat-card-actions>
     </mat-card>
@@ -35,23 +35,41 @@
   <div fxFlex="40" *ngIf="dish">
     <h3 mat-subheader>Comments</h3>
     <mat-list>
-      <mat-list-item *ngFor="let item of dish.comments">
-        <p matLine>  
-          <span> {{item.comment}} </span>
-        </p>
-        <p matLine>
-          <span> {{item.rating}} Stars </span>
-        </p>  
-        <p matLine>
-          <span> -- {{item.author}} {{item.date | date}} </span>
-        </p>
+      <mat-list-item *ngFor="let comment of dish.comments">
+        <h1 matLine>{{comment.comment}}</h1>
+        <h2 matLine>{{comment.rating}} Stars</h2>
+        <h2 matLine>-- {{comment.author}} {{comment.date | date }}</h2>
       </mat-list-item>
     </mat-list>
+    <mat-list *ngIf="commentForm.valid">
+      <mat-list-item>
+        <h1 matLine>{{ commentForm.value.comment }}</h1>
+        <h2 matLine>{{ commentForm.value.rating }} Stars</h2>
+        <h2 matLine>-- {{ commentForm.value.author }}</h2>
+      </mat-list-item>
+    </mat-list>
+    <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <div style="display: flex; flex-direction: column;">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="author" placeholder="Name" type="text">
+          <mat-error *ngIf="formErrors.author">{{formErrors.author}}</mat-error>
+        </mat-form-field>
+      </div>  
+      <mat-slider formControlName="rating" min="1" max="5" step="1" value="1" thumbLabel tickInterval="1"></mat-slider>
+      <div style="display: flex; flex-direction: column;">
+        <mat-form-field>
+          <textarea matInput formControlName="comment" placeholder="Your Comment"></textarea>
+        </mat-form-field>
+      </div>  
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">
+          Submit
+      </button>
+    </form>
   </div>
   <div [hidden]="dish">
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
-
+ 
   <!--
   <div fxFlex="40">
     <mat-list *ngIf="dish">
