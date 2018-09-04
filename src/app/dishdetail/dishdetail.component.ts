@@ -129,8 +129,6 @@ export class DishdetailComponent implements OnInit {
       comment: '',
       rating: 5,
     });
-    
-
   }
 
 }
